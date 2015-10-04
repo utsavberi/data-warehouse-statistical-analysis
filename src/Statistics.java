@@ -4,6 +4,30 @@ import java.util.Map.Entry;
 
 public class Statistics {
 
+	public static double pearsonCorrelation(ArrayList<Double> arr1, ArrayList<Double> arr2){
+		return covariance(arr1,arr2)/Math.sqrt(variance(arr1)*variance(arr2));
+		
+	}
+	private static double covariance(ArrayList<Double> arr1,
+			ArrayList<Double> arr2) {
+		double mean1 = mean(arr1);
+		double mean2 = mean(arr2);
+		double sum = 0; 
+		for(int i = 0; i< arr1.size(); i++){
+			sum+= (arr1.get(i)-mean1)*(arr2.get(i)-mean2);
+		}
+		return sum/(arr1.size()-1);
+	}
+	private static double variance(ArrayList<Double> arr) {
+		// TODO Auto-generated method stub
+		double mean = mean(arr);
+		double sum = 0;
+		for(Double d : arr){
+			sum += (d-mean)*(d-mean);
+		}
+		return sum/(arr.size()-1);
+		
+	}
 	public static double mean(ArrayList<Double> arr) {
 		int sum = 0;
 		for (Double d : arr) {
