@@ -5,10 +5,9 @@ import java.util.Map.Entry;
 public class Statistics {
 
 	public static double pearsonCorrelation(ArrayList<Double> arr1, ArrayList<Double> arr2){
-		return covariance(arr1,arr2)/Math.sqrt(variance(arr1)*variance(arr2));
-		
+		return covariance(arr1,arr2)/Math.sqrt(variance(arr1)*variance(arr2));	
 	}
-	private static double covariance(ArrayList<Double> arr1,
+	public static double covariance(ArrayList<Double> arr1,
 			ArrayList<Double> arr2) {
 		double mean1 = mean(arr1);
 		double mean2 = mean(arr2);
@@ -18,8 +17,7 @@ public class Statistics {
 		}
 		return sum/(arr1.size()-1);
 	}
-	private static double variance(ArrayList<Double> arr) {
-		// TODO Auto-generated method stub
+	public static double variance(ArrayList<Double> arr) {
 		double mean = mean(arr);
 		double sum = 0;
 		for(Double d : arr){
@@ -36,7 +34,7 @@ public class Statistics {
 		return sum / arr.size();
 	}
 
-	static double jointVariance(ArrayList<Double> arr1,
+	public static double jointVariance(ArrayList<Double> arr1,
 			ArrayList<Double> arr2) {
 		double x1 = mean(arr1), x2 = mean(arr2);
 		int sum1 = 0, sum2 = 0;
@@ -85,7 +83,7 @@ public class Statistics {
 		return f;
 	}
 
-	static double sumOfSquaresBetween(HashMap<String, Double> groupMean,
+	private static double sumOfSquaresBetween(HashMap<String, Double> groupMean,
 			double grandMean) {
 		double sum = 0;
 		for (Entry<String, Double> e : groupMean.entrySet()) {
@@ -95,7 +93,7 @@ public class Statistics {
 		return sum;
 	}
 
-	static double sumOfSquaresWithin(
+	private static double sumOfSquaresWithin(
 			HashMap<String, ArrayList<Double>> groupMap,
 			HashMap<String, Double> groupMean) {
 		double sum = 0;
@@ -107,7 +105,7 @@ public class Statistics {
 		return sum;
 	}
 
-	static int allN(HashMap<String, ArrayList<Double>> groupMap) {
+	private static int allN(HashMap<String, ArrayList<Double>> groupMap) {
 		int sum = 0;
 		for (ArrayList<Double> v : groupMap.values()) {
 			sum += v.size();
