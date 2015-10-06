@@ -52,8 +52,8 @@ public class Statistics {
 		double x1 = mean(arr1), x2 = mean(arr2);
 		double var = jointVariance(arr1, arr2);
 		double num = x1 - x2;
-		double dn1 = 1 / (double) arr1.size();
-		double dn2 = 1 / (double) arr2.size();
+		double dn1 = 1 / (double) (arr1.size());
+		double dn2 = 1 / (double) (arr2.size());
 		double denom = Math.sqrt(var * (dn1 + dn2));
 		double t = num / denom;
 		return t;
@@ -87,7 +87,7 @@ public class Statistics {
 			double grandMean) {
 		double sum = 0;
 		for (Entry<String, Double> e : groupMean.entrySet()) {
-			sum += (e.getValue() - grandMean) * (e.getValue() - grandMean);
+			sum += ((e.getValue() - grandMean) * (e.getValue() - grandMean));
 		}
 
 		return sum;
@@ -99,7 +99,7 @@ public class Statistics {
 		double sum = 0;
 		for (Entry<String, ArrayList<Double>> e : groupMap.entrySet()) {
 			for (Double xi : e.getValue()) {
-				sum += xi - groupMean.get(e.getKey());
+				sum += (xi - groupMean.get(e.getKey()))*(xi - groupMean.get(e.getKey()));
 			}
 		}
 		return sum;

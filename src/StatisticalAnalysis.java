@@ -52,8 +52,8 @@ public class StatisticalAnalysis {
 				+ "join treatment t4 on t4.p_id = t3.p_id "
 				+ "join DISEASE t5 on t4.DS_ID = t5.ds_id "
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
-				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
-				+ "join go_annotation t8 on t7.UUID = t8.UUID ";
+//				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
+				+ "join go_annotation t8 on t6.UUID = t8.UUID ";
 
 		ArrayList<Double> expression1 = new ArrayList<Double>();
 		ArrayList<Double> expression2 = new ArrayList<Double>();
@@ -82,8 +82,8 @@ public class StatisticalAnalysis {
 				+ "join treatment t4 on t4.p_id = t3.p_id "
 				+ "join DISEASE t5 on t4.DS_ID = t5.ds_id "
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
-				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
-				+ "join go_annotation t8 on t7.UUID = t8.UUID "
+//				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
+				+ "join go_annotation t8 on t6.UUID = t8.UUID "
 				+ "where t8.go_id = ? ";
 		ArrayList<Double> expression1 = new ArrayList<Double>();
 		ArrayList<Double> expression2 = new ArrayList<Double>();
@@ -112,8 +112,8 @@ public class StatisticalAnalysis {
 				+ "join treatment t4 on t4.p_id = t3.p_id "
 				+ "join DISEASE t5 on t4.DS_ID = t5.ds_id "
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
-				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
-				+ "join go_annotation t8 on t7.UUID = t8.UUID "
+//				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
+				+ "join go_annotation t8 on t6.UUID = t8.UUID "
 				+ "where t8.go_id = ? and t5.name=?";
 		HashMap<Integer, ArrayList<Double>> patientExpression = new HashMap<Integer, ArrayList<Double>>();
 		try {
@@ -154,8 +154,8 @@ public class StatisticalAnalysis {
 				+ "join treatment t4 on t4.p_id = t3.p_id "
 				+ "join DISEASE t5 on t4.DS_ID = t5.ds_id "
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
-				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
-				+ "join go_annotation t8 on t7.UUID = t8.UUID "
+//				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
+				+ "join go_annotation t8 on t6.UUID = t8.UUID "
 				+ "where t8.go_id = ? and (t5.name=? OR t5.name=?)";
 		HashMap<Integer, ArrayList<Double>> patientExpressionD1 = new HashMap<Integer, ArrayList<Double>>();
 		HashMap<Integer, ArrayList<Double>> patientExpressionD2 = new HashMap<Integer, ArrayList<Double>>();
@@ -212,8 +212,8 @@ public class StatisticalAnalysis {
 				+ "join treatment t4 on t4.p_id = t3.p_id "
 				+ "join DISEASE t5 on t4.DS_ID = t5.ds_id "
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
-				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
-				+ "join go_annotation t8 on t7.UUID = t8.UUID ";
+//				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
+				+ "join go_annotation t8 on t6.UUID = t8.UUID ";
 		try {
 			prepStatement = connection.prepareStatement(sql);
 			ResultSet rs = prepStatement.executeQuery();
@@ -241,8 +241,8 @@ public class StatisticalAnalysis {
 				+ "join treatment t4 on t4.p_id = t3.p_id "
 				+ "join DISEASE t5 on t4.DS_ID = t5.ds_id "
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
-				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
-				+ "join go_annotation t8 on t7.UUID = t8.UUID "
+//				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
+				+ "join go_annotation t8 on t6.UUID = t8.UUID "
 				+ "where t8.go_id = ? ";
 
 		try {
