@@ -1,3 +1,4 @@
+package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -131,14 +132,17 @@ public class StatisticalAnalysis {
 
 			}
 			double sum = 0;
+			int num = 0;
 			ArrayList<ArrayList<Double>> tmp = new ArrayList<ArrayList<Double>>(
 					patientExpression.values());
 			for (int i = 0; i < patientExpression.size(); i++) {
 				for (int j = i + 1; j < patientExpression.size(); j++) {
 					sum += Statistics.pearsonCorrelation(tmp.get(i), tmp.get(j));
+					num++;
 				}
 			}
-			return sum / ((tmp.size() * (tmp.size() - 1)) / 2);
+			
+			return sum /num;// ((tmp.size() * (tmp.size() - 1)) / 2);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -183,16 +187,20 @@ public class StatisticalAnalysis {
 					}
 				}
 			}
+			int num=0;
 			double sum = 0;
 			ArrayList<ArrayList<Double>> tmp = new ArrayList<ArrayList<Double>>(patientExpressionD1.values());
 			ArrayList<ArrayList<Double>> tmp2 = new ArrayList<ArrayList<Double>>(patientExpressionD2.values());
 			for (ArrayList<Double> arr1 : tmp) {
 				for (ArrayList<Double> arr2 : tmp2) {
 					sum += Statistics.pearsonCorrelation(arr1, arr2);
+					num++;
 				}
 			}
-			return sum / patientExpressionD1.size()
-					* patientExpressionD2.size();
+			//((tmp.size() * (tmp.size() - 1)) / 2)
+			return sum/num;
+//			return sum / patientExpressionD1.size()
+//					* patientExpressionD2.size();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
