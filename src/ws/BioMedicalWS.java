@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 
+import dao.KnowledgeDiscovery;
 import dao.OLAP;
 import dao.StatisticalAnalysis;
 
@@ -23,6 +24,7 @@ public class BioMedicalWS {
 	//Sets the path to base URL + /biomedicalDA
 	OLAP ob = new OLAP();
 	StatisticalAnalysis sa = new StatisticalAnalysis();
+	KnowledgeDiscovery kd = new KnowledgeDiscovery();
 	
 
 	  // This method is called if TEXT_PLAIN is request
@@ -160,6 +162,22 @@ public class BioMedicalWS {
 			  @QueryParam("diseaseName2") String diseaseName2, @QueryParam("goId") int goId){
 		  Gson g = new Gson();
 		    return g.toJson(sa.calculateAveragePearsonCorrelation(diseaseName1,diseaseName2 ,goId));
+	  }
+	  
+	  @GET
+	  @Path("/getInformativeGenes")
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String getInformativeGenes(@QueryParam("diseaseName") String diseaseName){
+		  Gson g = new Gson();
+		    return g.toJson(kd.getInformativeGenes(diseaseName));//sa.calculateAveragePearsonCorrelation(diseaseName1,diseaseName2 ,goId));
+	  }
+	  
+	  @GET
+	  @Path("/runTestsForSampleData")
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String runTestsForSampleData(@QueryParam("diseaseName1") String diseaseName){
+		  Gson g = new Gson();
+		    return g.toJson(kd.getInformativeGenes(diseaseName));
 	  }
 	  
 	  

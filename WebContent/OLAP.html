@@ -111,7 +111,7 @@ CSE601 Project 1: Data Warehouse/OLAP System
 
 <div>
 	<div class="wrap">
-		<div class="cube" style="font-size:10px">
+		<div class="cube" style="font-size:15px">
 			<div class="front">front</div>
 			<div class="back">back</div>
 			<div class="top">top</div>
@@ -172,7 +172,7 @@ function fillGroup2(data){
 		  .done(function(d) {fillGroup1(JSON.parse(d)); })
 		  .fail(function(e) {console.log("error",e) })
 	
-	$.get( "/Project1Dm/rest/biomedicalDa/diseaseUUIDExpression")
+	$.get( "/Project1Dm/rest/biomedicalDa/diseaseGoidExpression")
 		  .done(function(d) {fillGroup2(JSON.parse(d)); })
 		  .fail(function(e) {console.log("error",e); })
 	
