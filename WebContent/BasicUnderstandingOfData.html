@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<header>
+CSE601 Project 1: Data Warehouse/OLAP System
+</header>
+<nav>
+	<div class="nav-sections">
+		<ul>
+			<li><a href="BasicUnderstandingOfData.html">Basic Understanding of Data</a></li>
+			<li><a href="OLAP.html">DW/OLAP Concepts</a></li>
+			<li><a href="SchemaDesign.html">Schema Design</a></li>
+			<li><a href="ComplexityAnalysis.html">Sample Queries with Complexity Analysis</a></li>
+			<li><a href="statisticalAnalysis.html">Statistical Analysis</a></li>
+			<li><a href="DesignPatternAndSystemArchitecture.html">Design Pattern and system architecture</a></li>
+			<li><a href="KnowledgeDiscovery.html">Knowledge Discovery</a></li>
+		</ul>
+	</div>
+	<div class = "nav-sections" style="background-color: rgba(46, 156, 116, 0.72);">
+		<h4 style="    margin-bottom: -9px;">Our Team</h4>
+		<ul>
+			<li>Abha Khanna</li>
+			<li>Utsav Beri</li>
+			<li>Manpreet Arora</li>
+		</ul>
+	</div>
+	
+	<div class = "nav-sections" 
+	style="background-color: rgba(35, 79, 111, 0.72);">
+		<h4 style="    margin-bottom: -9px;">Special thank</h4>
+		<ul>
+			<li>Aidong Zhang</li>
+			<li>Jing Gao</li>
+			<li>Tianle Ma</li>
+			
+			
+		</ul>
+	</div>
+</nav>
+<div class="content">
+<h2>Basic Understanding of Data</h2>
+
+<ul>
+Our logical model, Bio-Nexus considers both the models Fact Constellation and Bio-Star. We arrived on our decisions based on three factors:  
+<li>Complexity</li>
+<li>Storage</li> 
+<li>Extensibility.
+</li>
+</ul>
+<p>
+The main goal of biological data warehousing is to provide a global and integrated view of living systems. Earlier, 
+the modelling data spaces included sample, gene annotation and gene expression. The new model introduced, also takes into 
+account datasets for clinical and genomic data in the warehouse design. The proposed data warehouse is designed to integrate various 
+biomedical datasets for studies of human diseases. Clinical data, including clinical test results, MRI images and drug responses of patients 
+are taken into account. A relatively large collection of microarray gene expression data is available for this research. Other genomic datasets, 
+including sequences and annotations, microarray gene expression data, protein-protein interaction data and protein domain information, are also 
+available.
+</p>
+<p>
+The logical model for clinical and sample data space is the fact constellation. This is because when we combine the different m tables and 
+bunch them into one table, the number of query joins reduces and the populated data tables are non- sparse and hardly contain any null values.
+</p>
+<p>
+The logical model for gene sequence is the Biostar. This is because we can have the flexibility of extending any dimension in future. 
+</p>
+</p>
+</div>
+
+</body>
+</html>

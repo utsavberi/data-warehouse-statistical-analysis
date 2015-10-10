@@ -13,12 +13,13 @@ CSE601 Project 1: Data Warehouse/OLAP System
 <nav>
 	<div class="nav-sections">
 		<ul>
-			<li>Basic Understanding of Data</li>
+			<li><a href="BasicUnderstandingOfData.html">Basic Understanding of Data</a></li>
 			<li><a href="OLAP.html">DW/OLAP Concepts</a></li>
-			<li>Schema Design</li>
+			<li><a href="SchemaDesign.html">Schema Design</a></li>
 			<li><a href="ComplexityAnalysis.html">Sample Queries with Complexity Analysis</a></li>
 			<li><a href="statisticalAnalysis.html">Statistical Analysis</a></li>
-			<li>Design Pattern and system architecture</li>
+			<li><a href="DesignPatternAndSystemArchitecture.html">Design Pattern and system architecture</a></li>
+			<li><a href="KnowledgeDiscovery.html">Knowledge Discovery</a></li>
 		</ul>
 	</div>
 	<div class = "nav-sections" style="background-color: rgba(46, 156, 116, 0.72);">
@@ -58,6 +59,115 @@ List the MrnaExpression values for the patients with disease name <input type="t
 and measurement unit id  <input type="text" id="q3muId" value="1"> : 
 <span id="query3"></span><br/>
 <button onclick="query3()">Go</button><br/><br/>
+
+
+<div>
+<h3>Complexity Analysis</h3>
+<pre>
+SQL Query Complexity can be calculated using :
+number of tables + 
+number of SELECT/INSERT/UPDATE/MERGE columns +
+number of JOINs +
+number of WHERE clause predicates +                                                           
+number of GROUP BY columns +                                                                    
+number of WHEN clauses in CASE expressions +                                            
+number of system function references +                                                        
+number of UDF references +                                                                            
+number of function nestings +                                                                         
+number of UNIONs
+
+Queries:
+
+PART II
+
+1. List the number of patients who had “tumor” (disease description), “leukemia” (disease type) and 
+“ALL” (disease name), separately.
+
+1.1 select count(*) from treatment t1 join disease t2
+on t1.ds_id = t2.ds_id where description = 'tumor'
+
+Query Complexity = 1+1+1 = 3
+
+1.2 select count(*) from treatment t1 join disease t2
+on t1.ds_id = t2.ds_id where type = 'leukemia'
+
+Query Complexity = 1+1+1 = 3
+
+1.3 select count(*) from treatment t1 join disease t2
+on t1.ds_id = t2.ds_id where NAME = 'ALL'
+
+Query Complexity = 1+1+1 = 3
+
+2. List the types of drugs which have been applied to patients with “tumor”.
+
+2.1 select unique(t3.type) from treatment t1 
+join disease t2 on t1.ds_id = t2.ds_id
+join drug t3 on t1.dr_id = t3.dr_id
+where t2.description='tumor'
+
+Query Complexity = 1+1+1+1 = 4
+
+
+3. For each sample of patients with “ALL”, list the mRNA values (expression) of probes in cluster id “00002” for each experiment with measure unit id = “001”.
+
+select t1.expression 
+from m_rna_expression t1 
+join sample t2 on t1.s_id = t2.s_id
+join treatment t3 on t3.p_id = t2.p_id
+join disease t4 on t3.ds_id = t4.ds_id
+join probe t5 on t1.pb_id = t5.pb_id
+join gene_sequence t6 on t5.UUID = t6.UUID
+join gene_cluster t7 on t6.UUID = t7.UUID
+join measurement_unit t8 on t1.mu_id = t8.mu_id
+where t4.name = 'ALL' and t7.cl_id = '2' and t8.mu_id='1'
+
+Query Complexity = 1+1+1+1+1+1+1+1+1 = 9
+
+4. For probes belonging to GO with id = “0012502”, calculate the t statistics of the expression values 
+between patients with “ALL” and patients without “ALL”. 
+
+select t1.expression, t5.name 
+from M_RNA_EXPRESSION t1 
+join sample t2 on t1.s_id = t2.s_id
+join patient t3 on t2.p_id = t3.p_id
+join treatment t4 on t4.p_id = t3.p_id
+join DISEASE t5 on t4.DS_ID = t5.ds_id
+join probe t6 on t1.pb_id = t6.pb_id
+join go_annotation t8 on t6.UUID = t8.UUID
+
+Query Complexity = 1+1+1+1+1+1+1 = 7
+
+5. For probes belonging to GO with id=“0007154”, calculate the F statistics of the expression values among patients with “ALL”, “AML”, “colon tumor” and “breast tumor”.
+
+select t1.expression, t5.name                                                                              
+from M_RNA_EXPRESSION t1                                                         		               
+join sample t2 on t1.s_id = t2.s_id                                              			       
+join patient t3 on t2.p_id = t3.p_id                                                               	      
+join treatment t4 on t4.p_id = t3.p_id                                                   	               
+join DISEASE t5 on t4.DS_ID = t5.ds_id                                                                  
+join probe t6 on t1.pb_id = t6.pb_id                                                                      
+join go_annotation t8 on t6.UUID = t8.UUID 
+
+Query Complexity = 1+1+1+1+1+1+1 = 7
+
+
+
+
+6. For probes belonging to GO with id=“0007154”, calculate the average correlation of the expression values between two patients with “ALL”, and calculate the average correlation of the expression values between one “ALL” patient and one “AML” patient.
+
+select t1.expression, t5.name , t3.p_id                                                                
+from M_RNA_EXPRESSION t1                             				                        
+join sample t2 on t1.s_id = t2.s_id								      
+join patient t3 on t2.p_id = t3.p_id 						                       
+join treatment t4 on t4.p_id = t3.p_id 							       
+join DISEASE t5 on t4.DS_ID = t5.ds_id							      
+join probe t6 on t1.pb_id = t6.pb_id						              
+join go_annotation t8 on t6.UUID = t8.UUID					           
+where t8.go_id = ? and t5.name=?
+
+Query Complexity = 1+1+1+1+1+1+1+1 = 8
+</pre>
+</div>
 </div>
 <script>
 function arrayToHtml(arr){

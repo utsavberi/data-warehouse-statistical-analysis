@@ -75,12 +75,13 @@ CSE601 Project 1: Data Warehouse/OLAP System
 <nav>
 	<div class="nav-sections">
 		<ul>
-			<li>Basic Understanding of Data</li>
+			<li><a href="BasicUnderstandingOfData.html">Basic Understanding of Data</a></li>
 			<li><a href="OLAP.html">DW/OLAP Concepts</a></li>
-			<li>Schema Design</li>
+			<li><a href="SchemaDesign.html">Schema Design</a></li>
 			<li><a href="ComplexityAnalysis.html">Sample Queries with Complexity Analysis</a></li>
 			<li><a href="statisticalAnalysis.html">Statistical Analysis</a></li>
-			<li>Design Pattern and system architecture</li>
+			<li><a href="DesignPatternAndSystemArchitecture.html">Design Pattern and system architecture</a></li>
+			<li><a href="KnowledgeDiscovery.html">Knowledge Discovery</a></li>
 		</ul>
 	</div>
 	<div class = "nav-sections" style="background-color: rgba(46, 156, 116, 0.72);">
@@ -121,6 +122,16 @@ CSE601 Project 1: Data Warehouse/OLAP System
 		</div>
 	</div>
 </div>
+
+<div style="margin-top: 568px;">
+<p>Data warehouse is a system used for reporting and data analysis. DWs are central repositories of integrated data from one or more disparate sources. They store current and historical data and are used for creating analytical reports for knowledge workers throughout the enterprise. Examples of reports could range from annual and quarterly comparisons and trends to detailed daily sales analyses.
+</p>
+<p>OLAP is characterized by a relatively low volume of transactions. Queries are often very complex and involve aggregations. For OLAP systems, response time is an effectiveness measure. OLAP applications are widely used by Data Mining techniques. OLAP databases store aggregated, historical data in multi-dimensional schema's (usually star schema's). OLAP systems typically have data latency of a few hours, as opposed to data marts, where latency is expected to be closer to one day.
+</p>
+<p>OLAP is part of the broader category of business intelligence, which also encompasses relational database, report writing and data mining. OLAP consists of three basic analytical operations: consolidation (roll-up), drill-down, and slicing and dicing. At the core of any OLAP system is an OLAP cube.  It consists of numeric facts called measures which are categorized by dimensions. The measures are placed at the intersections of the hypercube, which is spanned by the dimensions as a vector space.  The cube metadata is typically created from a star schema or snowflake schema or fact constellation of tables in a relational database. Measures are derived from the records in the fact table and dimensions are derived from the dimension tables.
+</p>
+<p>Each measure can be thought of as having a set of labels, or meta-data associated with it. A dimension is what describes these labels; it provides information about the measure.</div>
+</p>
 <script>
 function rollup(){
 	$.get( "/Project1Dm/rest/biomedicalDa/diseaseUUIDExpressionRollup")

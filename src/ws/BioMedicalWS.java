@@ -177,7 +177,7 @@ public class BioMedicalWS {
 	  @Produces(MediaType.TEXT_PLAIN)
 	  public String runTestsForSampleData(@QueryParam("diseaseName1") String diseaseName){
 		  Gson g = new Gson();
-		    return g.toJson(kd.getInformativeGenes(diseaseName));
+		    return g.toJson(kd.runTestsForSampleData(diseaseName));
 	  }
 	  
 	  
