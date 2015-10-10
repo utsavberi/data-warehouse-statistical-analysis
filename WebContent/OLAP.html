@@ -73,21 +73,45 @@ transform: rotateY(270deg) translateX(-175px);
 CSE601 Project 1: Data Warehouse/OLAP System
 </header>
 <nav>
-	<ul>
-		<li>Basic Understanding of Data</li>
-		<li>DW/OLAP Concepts</li>
-		<li>Schema Design</li>
-		<li>Sample Queries with Complexity Analysis</li>
-		<li>Design Pattern and system architecture</li>
-	</ul>
+	<div class="nav-sections">
+		<ul>
+			<li>Basic Understanding of Data</li>
+			<li><a href="OLAP.html">DW/OLAP Concepts</a></li>
+			<li>Schema Design</li>
+			<li><a href="ComplexityAnalysis.html">Sample Queries with Complexity Analysis</a></li>
+			<li><a href="statisticalAnalysis.html">Statistical Analysis</a></li>
+			<li>Design Pattern and system architecture</li>
+		</ul>
+	</div>
+	<div class = "nav-sections" style="background-color: rgba(46, 156, 116, 0.72);">
+		<h4 style="    margin-bottom: -9px;">Our Team</h4>
+		<ul>
+			<li>Abha Khanna</li>
+			<li>Utsav Beri</li>
+			<li>Manpreet Arora</li>
+		</ul>
+	</div>
+	
+	<div class = "nav-sections" 
+	style="background-color: rgba(35, 79, 111, 0.72);">
+		<h4 style="    margin-bottom: -9px;">Special thank</h4>
+		<ul>
+			<li>Aidong Zhang</li>
+			<li>Jing Gao</li>
+			<li>Tianle Ma</li>
+			
+			
+		</ul>
+	</div>
 </nav>
+
 <button onclick="$('.cube').toggleClass('XRotated')">Pivot</button>
 <button id="rollupBtn" onclick="rollup();$('#rolldownBtn').prop('disabled',false);$('#rollupBtn').prop('disabled',true);">Rollup</button>
 <button id="rolldownBtn" disabled onclick="rolldown();$('#rollupBtn').prop('disabled',false);$('#rolldownBtn').prop('disabled',true);">RollDown</button>
 
 <div>
 	<div class="wrap">
-		<div class="cube">
+		<div class="cube" style="font-size:10px">
 			<div class="front">front</div>
 			<div class="back">back</div>
 			<div class="top">top</div>
@@ -98,6 +122,50 @@ CSE601 Project 1: Data Warehouse/OLAP System
 	</div>
 </div>
 <script>
+function rollup(){
+	$.get( "/Project1Dm/rest/biomedicalDa/diseaseUUIDExpressionRollup")
+	  .done(function(d) {fillGroup1(JSON.parse(d)); })
+	  .fail(function(e) {console.log("error",e) });
+	$.get( "/Project1Dm/rest/biomedicalDa/diseaseGoidExpressionRollup")
+	  .done(function(d) {fillGroup2(JSON.parse(d)); })
+	  .fail(function(e) {console.log("error",e) });
+}
+
+function rolldown(){
+	$.get( "/Project1Dm/rest/biomedicalDa/diseaseUUIDExpression")
+	  .done(function(d) {fillGroup1(JSON.parse(d)); })
+	  .fail(function(e) {console.log("error",e) });
+	$.get( "/Project1Dm/rest/biomedicalDa/diseaseGoidExpression")
+	  .done(function(d) {fillGroup2(JSON.parse(d)); })
+	  .fail(function(e) {console.log("error",e) });
+}
+
+function fillGroup1(data){
+	$('.front').html('');
+	$('.back').html('');
+	var tmp = "<table style='width:100%;' border=1><col width='33'><col width='33'><col width='36'>";
+	for(var i = 0; i< data.length; i++)
+	{
+		tmp+="<tr><td>"+data[i][0]+"</td><td>"+data[i][1]+"</td><td>"+
+		data[i][2]+"</td>"+"</tr>";
+	}
+	tmp+="</table>";
+	$('.front').html(tmp);
+	$('.back').html(tmp);
+}
+function fillGroup2(data){
+	$('.top').html('');
+	$('.right').html('');
+	var tmp = "<table style='width:100%;' border=1><col width='33'><col width='33'><col width='36'>";
+	for(var i = 0; i< data.length; i++)
+	{
+		tmp+="<tr><td>"+data[i][0]+"</td><td>"+data[i][1]+"</td><td>"+
+		data[i][2]+"</td>"+"</tr>";
+	}
+	tmp+="</table>";
+	$('.top').html(tmp);
+	$('.right').html(tmp);
+}
 (function(){
 	
 	$.get( "/Project1Dm/rest/biomedicalDa/diseaseUUIDExpression")
@@ -108,50 +176,9 @@ CSE601 Project 1: Data Warehouse/OLAP System
 		  .done(function(d) {fillGroup2(JSON.parse(d)); })
 		  .fail(function(e) {console.log("error",e); })
 	
-  function fillGroup1(data){
-		$('.front').html('');
-		$('.back').html('');
-		var tmp = "<table style='width:100%;' border=1><col width='33'><col width='33'><col width='36'>";
-		for(var i = 0; i< data.length; i++)
-		{
-			tmp+="<tr><td>"+data[i][0]+"</td><td>"+data[i][1]+"</td><td>"+
-			data[i][2]+"</td>"+"</tr>";
-		}
-		tmp+="</table>";
-		$('.front').html(tmp);
-		$('.back').html(tmp);
-	}
-	function fillGroup2(data){
-		$('.top').html('');
-		$('.right').html('');
-		var tmp = "<table style='width:100%;' border=1><col width='33'><col width='33'><col width='36'>";
-		for(var i = 0; i< data.length; i++)
-		{
-			tmp+="<tr><td>"+data[i][0]+"</td><td>"+data[i][1]+"</td><td>"+
-			data[i][2]+"</td>"+"</tr>";
-		}
-		tmp+="</table>";
-		$('.top').html(tmp);
-		$('.right').html(tmp);
-	}
+  
 	
-	function rollup(){
-		$.get( "/Project1Dm/rest/biomedicalDa/diseaseUUIDExpressionRollup")
-		  .done(function(d) {fillGroup1(JSON.parse(d)); })
-		  .fail(function(e) {console.log("error",e) });
-		$.get( "/Project1Dm/rest/biomedicalDa/diseaseGoidExpressionRollup")
-		  .done(function(d) {fillGroup2(JSON.parse(d)); })
-		  .fail(function(e) {console.log("error",e) });
-	}
 	
-	function rollDown(){
-		$.get( "/Project1Dm/rest/biomedicalDa/diseaseUUIDExpression")
-		  .done(function(d) {fillGroup1(JSON.parse(d)); })
-		  .fail(function(e) {console.log("error",e) });
-		$.get( "/Project1Dm/rest/biomedicalDa/diseaseGoidExpression")
-		  .done(function(d) {fillGroup2(JSON.parse(d)); })
-		  .fail(function(e) {console.log("error",e) });
-	}
 }());
 </script>
 </body>

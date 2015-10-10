@@ -13,18 +13,24 @@ header {
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.64);
 }
 nav {
-    border-radius: 9px;
     margin-right: 21px;
-    margin-left: -10px;
-    padding: 8px;
+    margin-left: -20px;
+    
     float: left;
     width: 248px;
-    margin-top: 23px;
     margin-bottom: 23%;
-    background-color: rgba(48, 60, 44, 0.75);
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4);
+    
     color: white;
     padding-left: 14px;
+}
+.nav-sections{
+	    margin-top: 23px;
+	
+	background-color: rgba(48, 60, 44, 0.75);
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4);
+    padding: 8px;
+        border-radius: 9px;
+    
 }
 input[type="text"] {
     border: none;
@@ -46,7 +52,7 @@ ul {
 }
 
 li {
-    border-bottom: 1px solid #989898;
+    border-bottom: 1px solid #CACACA;
     padding: 3px;
 }
 a {

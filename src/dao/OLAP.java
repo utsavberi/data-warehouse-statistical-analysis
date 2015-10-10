@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class OLAP {
 
+	private int threashold = 3000;
 	Connection connection = null;
 	Statement stmt = null;
 	PreparedStatement prepStatement = null;
@@ -40,8 +41,10 @@ public class OLAP {
 				+ "join DISEASE t5 on t4.DS_ID = t5.ds_id "
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
 				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
-				+ "join go_annotation t8 on t7.UUID = t8.UUID )"
-				+ "WHERE ROWNUM <= 50";		
+				+ "join go_annotation t8 on t7.UUID = t8.UUID "
+				+ "order by t5.name, go_id)"
+				+ "WHERE ROWNUM <= "+threashold;
+				;
 		try {
 			prepStatement = connection.prepareStatement(sql);
 
@@ -67,8 +70,10 @@ public class OLAP {
 				+ "join DISEASE t5 on t4.DS_ID = t5.ds_id "
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
 				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
-				+ "join go_annotation t8 on t7.UUID = t8.UUID )"
-				+ "WHERE ROWNUM <= 50";		
+				+ "join go_annotation t8 on t7.UUID = t8.UUID "
+				+ "order by t5.name,t7.UUID)"
+				+ "WHERE ROWNUM <= "+threashold;
+				;
 		try {
 			prepStatement = connection.prepareStatement(sql);
 
@@ -94,8 +99,10 @@ public class OLAP {
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
 				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
 				+ "join go_annotation t8 on t7.UUID = t8.UUID"
-				+ " group by t5.name,go_id )"
-				+ "WHERE ROWNUM <= 50";		
+				+ " group by t5.name,go_id "
+				+ "order by t5.name, go_id)"
+				+ "WHERE ROWNUM <= "+threashold;
+				;
 		try {
 			prepStatement = connection.prepareStatement(sql);
 
@@ -122,8 +129,10 @@ public class OLAP {
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
 				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
 				+ "join go_annotation t8 on t7.UUID = t8.UUID "
-				+ " group by t5.name,t7.UUID)"
-				+ "WHERE ROWNUM <= 50";		
+				+ " group by t5.name,t7.UUID "
+				+ "order by t5.name, t7.UUID)"
+				+ "WHERE ROWNUM <= "+threashold;
+				;
 		try {
 			prepStatement = connection.prepareStatement(sql);
 

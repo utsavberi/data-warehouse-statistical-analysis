@@ -63,7 +63,7 @@ public class BioMedicalWS {
 	  public String getDiseaseGoidExpression()
 	  {
 	    Gson g = new Gson();
-	    return g.toJson(ob.diseaseUUIDExpression());
+	    return g.toJson(ob.diseaseGoidExpression());
 	  }
 	  
 	  @GET
@@ -72,7 +72,7 @@ public class BioMedicalWS {
 	  public String getDiseaseUUIDExpressionRollup()
 	  {
 		  Gson g = new Gson();
-	    return g.toJson(ob.diseaseUUIDExpression());
+	    return g.toJson(ob.diseaseUUIDExpressionRollup());
 	  }
 	  
 	  @GET
@@ -81,7 +81,7 @@ public class BioMedicalWS {
 	  public String getDiseaseGoidExpressionRollup()
 	  {
 	    Gson g = new Gson();
-	    return g.toJson(ob.diseaseUUIDExpression());
+	    return g.toJson(ob.diseaseGoidExpressionRollup());
 	  }
 	  
 	  @GET
