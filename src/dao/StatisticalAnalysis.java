@@ -53,7 +53,7 @@ public class StatisticalAnalysis {
 				+ "join treatment t4 on t4.p_id = t3.p_id "
 				+ "join DISEASE t5 on t4.DS_ID = t5.ds_id "
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
-//				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
+				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
 				+ "join go_annotation t8 on t6.UUID = t8.UUID ";
 
 		ArrayList<Double> expression1 = new ArrayList<Double>();
@@ -75,7 +75,7 @@ public class StatisticalAnalysis {
 		return 0.0;
 	}
 
-	double runTtestOneVsAll(String diseaseName, int goId) {
+	public double runTtestOneVsAll(String diseaseName, int goId) {
 		String sql = "select t1.expression, t5.name "
 				+ "from M_RNA_EXPRESSION t1 "
 				+ "join sample t2 on t1.s_id = t2.s_id "
@@ -83,7 +83,7 @@ public class StatisticalAnalysis {
 				+ "join treatment t4 on t4.p_id = t3.p_id "
 				+ "join DISEASE t5 on t4.DS_ID = t5.ds_id "
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
-//				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
+				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
 				+ "join go_annotation t8 on t6.UUID = t8.UUID "
 				+ "where t8.go_id = ? ";
 		ArrayList<Double> expression1 = new ArrayList<Double>();
@@ -105,7 +105,7 @@ public class StatisticalAnalysis {
 		return 0.0;
 	}
 
-	double calculateAveragePearsonCorrelation(String diseaseName, int goId) {
+	public double calculateAveragePearsonCorrelation(String diseaseName, int goId) {
 		String sql = "select t1.expression, t5.name , t3.p_id "
 				+ "from M_RNA_EXPRESSION t1 "
 				+ "join sample t2 on t1.s_id = t2.s_id "
@@ -113,7 +113,7 @@ public class StatisticalAnalysis {
 				+ "join treatment t4 on t4.p_id = t3.p_id "
 				+ "join DISEASE t5 on t4.DS_ID = t5.ds_id "
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
-//				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
+				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
 				+ "join go_annotation t8 on t6.UUID = t8.UUID "
 				+ "where t8.go_id = ? and t5.name=?";
 		HashMap<Integer, ArrayList<Double>> patientExpression = new HashMap<Integer, ArrayList<Double>>();
@@ -149,7 +149,7 @@ public class StatisticalAnalysis {
 		return 0.0;
 	}
 
-	double calculateAveragePearsonCorrelation(String diseaseName1,
+	public double calculateAveragePearsonCorrelation(String diseaseName1,
 			String diseaseName2, int goId) {
 		String sql = "select t1.expression, t5.name , t3.p_id "
 				+ "from M_RNA_EXPRESSION t1 "
@@ -220,7 +220,7 @@ public class StatisticalAnalysis {
 				+ "join treatment t4 on t4.p_id = t3.p_id "
 				+ "join DISEASE t5 on t4.DS_ID = t5.ds_id "
 				+ "join probe t6 on t1.pb_id = t6.pb_id "
-//				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
+				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
 				+ "join go_annotation t8 on t6.UUID = t8.UUID ";
 		try {
 			prepStatement = connection.prepareStatement(sql);

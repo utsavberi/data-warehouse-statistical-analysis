@@ -1,6 +1,7 @@
 package ws;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -14,12 +15,14 @@ import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 
 import dao.OLAP;
+import dao.StatisticalAnalysis;
 
 
 @Path("/biomedicalDa")
 public class BioMedicalWS {
 	//Sets the path to base URL + /biomedicalDA
 	OLAP ob = new OLAP();
+	StatisticalAnalysis sa = new StatisticalAnalysis();
 	
 
 	  // This method is called if TEXT_PLAIN is request
@@ -122,26 +125,46 @@ public class BioMedicalWS {
 	  }
 	  
 	  @GET
-	  @Path("/hej")
+	  @Path("/runTtestOneVsAll")
 	  @Produces(MediaType.TEXT_PLAIN)
-	  public String getPersons()
-	  {
-		  final List<Person> persons = new ArrayList<Person>();
-	    persons.add(new Person(1, "John Smith"));
-	    persons.add(new Person(2, "Jane Smith"));
-	    
-	    
-	    Gson g = new Gson();
-	    return g.toJson(ob.testQuery());
-//	    return Response.ok(persons).entity(new GenericEntity<List<Person>>(persons) {}).build();
+	  public String runTtestOneVsAll(@QueryParam("diseaseName") String diseaseName,
+			  @QueryParam("goId") int goId){
+		  Gson g = new Gson();
+		    return g.toJson(sa.runTtestOneVsAll(diseaseName,goId));
 	  }
-
+	  
+	  @GET
+	  @Path("/runFtest")
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String runFtest(@QueryParam("diseaseName1") String diseaseName1,
+			  @QueryParam("diseaseName2") String diseaseName2,
+			  @QueryParam("diseaseName3") String diseaseName3,
+			  @QueryParam("diseaseName4") String diseaseName4,
+			  @QueryParam("goId") int goId){
+		  Gson g = new Gson();
+		    return g.toJson(sa.runFtest(new ArrayList<String>(Arrays.asList(diseaseName1,diseaseName2,diseaseName3,diseaseName4)),goId));
+	  }
+	  
+	  @GET
+	  @Path("/calculateAveragePearsonCorrelation1")
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String calculateAveragePearsonCorrelation1(@QueryParam("diseaseName") String diseaseName, @QueryParam("goId") int goId){
+		  Gson g = new Gson();
+		    return g.toJson(sa.calculateAveragePearsonCorrelation(diseaseName,goId));
+	  }
+	  
+	  @GET
+	  @Path("/calculateAveragePearsonCorrelation2")
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String calculateAveragePearsonCorrelation2(@QueryParam("diseaseName1") String diseaseName1,
+			  @QueryParam("diseaseName2") String diseaseName2, @QueryParam("goId") int goId){
+		  Gson g = new Gson();
+		    return g.toJson(sa.calculateAveragePearsonCorrelation(diseaseName1,diseaseName2 ,goId));
+	  }
+	  
+	  
+	  
+	  
 }
 
-class Person{
-	int id ; String name;
-	public Person(int id, String name){
-		this.id = id; this.name = name;
-		
-	}
-}
+

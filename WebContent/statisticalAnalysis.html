@@ -22,57 +22,74 @@ CSE601 Project 1: Data Warehouse/OLAP System
 </nav>
 <div class="content">
 <h2>Statistical Analysis</h2>
-List the number of patients who had <input type="text" id="diseaseDescription" value="tumor"> (disease description) : <span id="query1_1"></span></span><br/>
-List the number of patients who had <input type="text" id="diseaseType" value="leukemia"> (disease type)  : <span id="query1_2"></span><br/>
-List the number of patients who had <input type="text" id="diseaseName" value="ALL"> (disease name)  : <span id="query1_3"></span><br/>
+T statistics of expression between patients with disease name <input type="text" id="q1DiseaseName" value="ALL"> 
+for probes belonging to go id  <input type="text" id="q1GoId" value="12502"> : <span id="query1"></span></span><br/>
 <button onclick="query1()">Go</button><br/><br/>
-List the types of drugs which have been applied to patients with  <input type="text" id="q2DiseaseDescription" value="tumor"> (disease description)  : 
+
+FStatistics of expression among patients with disease names <input type="text" id="q2DiseaseName1" value="ALL">,
+<input type="text" id="q2DiseaseName2" value="AML">,
+<input type="text" id="q2DiseaseName3" value="Colon tumor">,
+<input type="text" id="q2DiseaseName4" value="Breast tumor"> 
+for probes belonging to go id <input type="text" id="q2GoId" value="7154"> 
 <span id="query2"></span><br/>
 <button onclick="query2()">Go</button><br/><br/>
 
-List the MrnaExpression values for the patients with disease name <input type="text" id="q3DiseaseName" value="ALL">
- cluster id  <input type="text" id="q3clusterId" value="2">
-and measurement unit id  <input type="text" id="q3muId" value="1"> : 
+Average correlation between two patients with disease name  <input type="text" id="q3DiseaseName" value="ALL">
+for probes belonging to go id <input type="text" id="q3GoId" value="7154">
 <span id="query3"></span><br/>
 <button onclick="query3()">Go</button><br/><br/>
+
+Average correlation between two patients with disease name  <input type="text" id="q4DiseaseName1" value="ALL">
+and disease name  <input type="text" id="q4DiseaseName2" value="AML"> 
+for probes belonging to go id <input type="text" id="q4GoId" value="7154">
+<span id="query4"></span><br/>
+<button onclick="query4()">Go</button><br/><br/>
+
 </div>
 <script>
 function arrayToHtml(arr){
 	return arr.join(", ")+" (count = "+arr.length+")";
 }
+function query4(){
+	$.get( "/Project1Dm/rest/biomedicalDa/calculateAveragePearsonCorrelation2",
+			{
+		diseaseName1: $('#q4DiseaseName1').val(),
+		diseaseName2: $('#q4DiseaseName2').val(),
+			goId:$('#q4GoId').val()
+		})
+	  .done(function(d) {$('#query4').html(d); })
+	  .fail(function(e) {console.log("error",e); })
+}
 function query3(){
-	$.get( "/Project1Dm/rest/biomedicalDa/listMRNAExpressions",{diseaseName: $('#q3DiseaseName').val(),
-		clusterId: $('#q3clusterId').val(), muId: $('#q3muId').val()})
-	  .done(function(d) {$('#query3').html(arrayToHtml(JSON.parse(d))); })
+	$.get( "/Project1Dm/rest/biomedicalDa/calculateAveragePearsonCorrelation1",
+			{
+			diseaseName: $('#q3DiseaseName').val(),
+			goId:$('#q3GoId').val()
+		})
+	  .done(function(d) {$('#query3').html(d); })
 	  .fail(function(e) {console.log("error",e); })
 }
 function query2(){
-	$.get( "/Project1Dm/rest/biomedicalDa/listOfDrugsAppliedToPatientsWith",{diseaseDescription: $('#q2DiseaseDescription').val()})
+	$.get( "/Project1Dm/rest/biomedicalDa/runFtest",
+			{diseaseName1: $('#q2DiseaseName1').val(),
+		diseaseName2: $('#q2DiseaseName2').val(),
+		diseaseName3: $('#q2DiseaseName3').val(),
+		diseaseName4: $('#q2DiseaseName4').val(),
+		goId:parseInt($('#q2GoId').val())})
 	  .done(function(d) {$('#query2').html(d); })
 	  .fail(function(e) {console.log("error",e); })
 }
 function query1(){
-	query1_1();
-	query1_2();
-	query1_3();
-}
-function query1_1(){
-	$.get( "/Project1Dm/rest/biomedicalDa/numOfPatientsWithDiseasesByDescription",{description: $('#diseaseDescription').val()})
-	  .done(function(d) {$('#query1_1').html(d); })
+	$.get( "/Project1Dm/rest/biomedicalDa/runTtestOneVsAll",
+			{
+				diseaseName: $('#q1DiseaseName').val(),
+				goId:$('#q1GoId').val()
+			}
+		)
+	  .done(function(d) {$('#query1').html(d); })
 	  .fail(function(e) {console.log("error",e); })
 }
 
-function query1_2(){
-	$.get( "/Project1Dm/rest/biomedicalDa/numOfPatientsWithDiseasesByType",{type:$('#diseaseType').val()})
-	  .done(function(d) {$('#query1_2').html(d); })
-	  .fail(function(e) {console.log("error",e); })
-}
-
-function query1_3(){
-	$.get( "/Project1Dm/rest/biomedicalDa/numOfPatientsWithDiseasesByName",{name:$('#diseaseName').val()})
-	  .done(function(d) {$('#query1_3').html(d); })
-	  .fail(function(e) {console.log("error",e); })
-}
 </script>
 </body>
 </html>
