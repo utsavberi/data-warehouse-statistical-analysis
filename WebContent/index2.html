@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+<style>
+
+table{
+    border-collapse: collapse;
+    }
+.wrap {
+	    perspective: 965px;
+    perspective-origin: 954px -204px;
+    position: relative;
+    top: 47px;
+    left: 150px;
+}
+.cube {
+    position: relative;
+    background-color: red;
+    width: 500px;
+    transform-style: preserve-3d;
+    transform: rotateX(0deg);
+	margin: 0 auto;
+    transform-origin: 0 175px;
+    	transform-style: preserve-3d;
+    	transition:1s;
+
+}
+.cube div {
+	position: absolute;
+    width: 350px;
+    height: 350px;
+    background-color: #F3F3F3;
+    overflow:auto;
+    backface-visibility: hidden;
+}
+
+.XRotated{
+	transform: rotateX(-90deg);
+}
+
+.back {
+    transform: translateZ(-175px) rotateY(180deg);
+}
+.right {
+transform: rotateY(-270deg) translateX(175px);
+    transform-origin: top right;
+}
+.left {
+transform: rotateY(270deg) translateX(-175px);
+    transform-origin: center left;
+}
+.top {
+	transform: rotateX(-270deg) translateY(-175px);
+    transform-origin: top center;
+    }
+.bottom {
+	transform: rotateX(90deg) translateY(175px);
+    transform-origin: bottom center;
+    }
+.front {
+	transform: translateZ(175px);
+}
+
+</style>
+
+</head>
+<body>
+<header>
+CSE601 Project 1: Data Warehouse/OLAP System
+</header>
+<nav>
+	<ul>
+		<li>Basic Understanding of Data</li>
+		<li>DW/OLAP Concepts</li>
+		<li>Schema Design</li>
+		<li>Sample Queries with Complexity Analysis</li>
+		<li>Design Pattern and system architecture</li>
+	</ul>
+</nav>
+<button onclick="$('.cube').toggleClass('XRotated')">Pivot</button>
+<button id="rollupBtn" onclick="rollup();$('#rolldownBtn').prop('disabled',false);$('#rollupBtn').prop('disabled',true);">Rollup</button>
+<button id="rolldownBtn" disabled onclick="rolldown();$('#rollupBtn').prop('disabled',false);$('#rolldownBtn').prop('disabled',true);">RollDown</button>
+
+<div>
+	<div class="wrap">
+		<div class="cube">
+			<div class="front">front</div>
+			<div class="back">back</div>
+			<div class="top">top</div>
+			<div class="bottom">bottom</div>
+			<div class="left">left</div>
+			<div class="right">right</div>
+		</div>
+	</div>
+</div>
+<script>
+(function(){
+	
+	$.get( "/Project1Dm/rest/biomedicalDa/diseaseUUIDExpression")
+		  .done(function(d) {fillGroup1(JSON.parse(d)); })
+		  .fail(function(e) {console.log("error",e) })
+	
+	$.get( "/Project1Dm/rest/biomedicalDa/diseaseUUIDExpression")
+		  .done(function(d) {fillGroup2(JSON.parse(d)); })
+		  .fail(function(e) {console.log("error",e); })
+	
+  function fillGroup1(data){
+		$('.front').html('');
+		$('.back').html('');
+		var tmp = "<table style='width:100%;' border=1><col width='33'><col width='33'><col width='36'>";
+		for(var i = 0; i< data.length; i++)
+		{
+			tmp+="<tr><td>"+data[i][0]+"</td><td>"+data[i][1]+"</td><td>"+
+			data[i][2]+"</td>"+"</tr>";
+		}
+		tmp+="</table>";
+		$('.front').html(tmp);
+		$('.back').html(tmp);
+	}
+	function fillGroup2(data){
+		$('.top').html('');
+		$('.right').html('');
+		var tmp = "<table style='width:100%;' border=1><col width='33'><col width='33'><col width='36'>";
+		for(var i = 0; i< data.length; i++)
+		{
+			tmp+="<tr><td>"+data[i][0]+"</td><td>"+data[i][1]+"</td><td>"+
+			data[i][2]+"</td>"+"</tr>";
+		}
+		tmp+="</table>";
+		$('.top').html(tmp);
+		$('.right').html(tmp);
+	}
+	
+	function rollup(){
+		$.get( "/Project1Dm/rest/biomedicalDa/diseaseUUIDExpressionRollup")
+		  .done(function(d) {fillGroup1(JSON.parse(d)); })
+		  .fail(function(e) {console.log("error",e) });
+		$.get( "/Project1Dm/rest/biomedicalDa/diseaseGoidExpressionRollup")
+		  .done(function(d) {fillGroup2(JSON.parse(d)); })
+		  .fail(function(e) {console.log("error",e) });
+	}
+	
+	function rollDown(){
+		$.get( "/Project1Dm/rest/biomedicalDa/diseaseUUIDExpression")
+		  .done(function(d) {fillGroup1(JSON.parse(d)); })
+		  .fail(function(e) {console.log("error",e) });
+		$.get( "/Project1Dm/rest/biomedicalDa/diseaseGoidExpression")
+		  .done(function(d) {fillGroup2(JSON.parse(d)); })
+		  .fail(function(e) {console.log("error",e) });
+	}
+}());
+</script>
+</body>
+</html>

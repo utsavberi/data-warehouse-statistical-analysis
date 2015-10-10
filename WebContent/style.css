@@ -1,0 +1,55 @@
+	body {
+    background-image: url(http://doodleslide.com/wp-content/uploads/2011/10/Grid-Background-to-repeat-250-px-high.jpg);
+    margin: 0;
+    font-family: arial;
+    color: #2B2B2B;
+}
+header {
+    font-size: 49px;
+    text-align: center;
+    background-color: #FFFAFE;
+    padding: 10px;
+    border-bottom: 1px solid #B4D7AF;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.64);
+}
+nav {
+    border-radius: 9px;
+    margin-right: 21px;
+    margin-left: -10px;
+    padding: 8px;
+    float: left;
+    width: 248px;
+    margin-top: 23px;
+    margin-bottom: 23%;
+    background-color: rgba(48, 60, 44, 0.75);
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4);
+    color: white;
+    padding-left: 14px;
+}
+input[type="text"] {
+    border: none;
+    background-color: transparent;
+    padding: 0px 10px;
+    border-bottom: 1px solid #969393;
+    font-size: 18px;
+    width: 130px;
+    font-family: Comic Sans MS;
+}
+
+.content {
+    margin-left: 277px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    border-bottom: 1px solid #989898;
+    padding: 3px;
+}
+a {
+    text-decoration: none;
+    color: white;
+}

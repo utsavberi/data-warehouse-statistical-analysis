@@ -1,4 +1,4 @@
-package ui;
+package ws;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -78,6 +79,46 @@ public class BioMedicalWS {
 	  {
 	    Gson g = new Gson();
 	    return g.toJson(ob.diseaseUUIDExpression());
+	  }
+	  
+	  @GET
+	  @Path("/numOfPatientsWithDiseasesByDescription")
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String numOfPatientsWithDiseasesByDescription(@QueryParam("description") String description){
+		  Gson g = new Gson();
+		    return g.toJson(ob.numOfPatientsWithDiseasesByDescription(description));
+	  }
+	  @GET
+	  @Path("/numOfPatientsWithDiseasesByName")
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String numOfPatientsWithDiseasesByName(@QueryParam("name") String name){
+		  Gson g = new Gson();
+		    return g.toJson(ob.numOfPatientsWithDiseasesByName(name));
+	  }
+	  @GET
+	  @Path("/numOfPatientsWithDiseasesByType")
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String numOfPatientsWithDiseasesByType(@QueryParam("type") String type){
+		  Gson g = new Gson();
+		    return g.toJson(ob.numOfPatientsWithDiseasesByType(type));
+	  }
+	  
+	  @GET
+	  @Path("/listOfDrugsAppliedToPatientsWith")
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String listOfDrugsAppliedToPatientsWith(@QueryParam("diseaseDescription") String diseaseDescription){
+		  Gson g = new Gson();
+		    return g.toJson(ob.listOfDrugsAppliedToPatientsWith(diseaseDescription));
+	  }
+	  
+	  @GET
+	  @Path("/listMRNAExpressions")
+	  @Produces(MediaType.TEXT_PLAIN)
+	  public String listMRNAExpressions(@QueryParam("diseaseName") String diseaseName,
+			  @QueryParam("clusterId") String clusterId,
+			  @QueryParam("muId") String muId){
+		  Gson g = new Gson();
+		    return g.toJson(ob.listMRNAExpressions(diseaseName,clusterId,muId));
 	  }
 	  
 	  @GET

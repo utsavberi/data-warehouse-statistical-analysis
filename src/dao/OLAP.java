@@ -52,7 +52,6 @@ public class OLAP {
 				arr.add(a);
 			}
 			return arr;
-//			return Statistics.tTest(expression1, expression2);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -80,7 +79,6 @@ public class OLAP {
 				arr.add(a);
 			}
 			return arr;
-//			return Statistics.tTest(expression1, expression2);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -108,7 +106,6 @@ public class OLAP {
 				arr.add(a);
 			}
 			return arr;
-//			return Statistics.tTest(expression1, expression2);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -137,12 +134,164 @@ public class OLAP {
 				arr.add(a);
 			}
 			return arr;
-//			return Statistics.tTest(expression1, expression2);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 		return null;
 	}
+	
+	public int numOfPatientsWithDiseasesByDescription(final String description){
+//		List the number of patients who had “tumor” (disease description), “leukemia” (disease type) and 
+//		“ALL” (disease name), separately.
+		int ret = 0;
+		String sql = "select count(*) from treatment t1 join disease t2 on t1.ds_id = t2.ds_id where description = ?";		
+		try {
+			prepStatement = connection.prepareStatement(sql);
+			prepStatement.setString(1, description);
+			ResultSet rs = prepStatement.executeQuery();
+			rs.next();
+			ret = rs.getInt(1);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		return ret;
+	}
+	public int numOfPatientsWithDiseasesByType(final String type){
+//		List the number of patients who had “tumor” (disease description), “leukemia” (disease type) and 
+//		“ALL” (disease name), separately.
+		int ret = 0;
+		String sql = "select count(*) from treatment t1 join disease t2 on t1.ds_id = t2.ds_id where type = ?";		
+		try {
+			prepStatement = connection.prepareStatement(sql);
+			prepStatement.setString(1, type);
+			ResultSet rs = prepStatement.executeQuery();
+			rs.next();
+			ret = rs.getInt(1);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		return ret;
+	}
+	public int numOfPatientsWithDiseasesByName(final String name){
+//		List the number of patients who had “tumor” (disease description), “leukemia” (disease type) and 
+//		“ALL” (disease name), separately.
+		int ret = 0;
+		String sql = "select count(*) from treatment t1 join disease t2 on t1.ds_id = t2.ds_id where name = ?";		
+		try {
+			prepStatement = connection.prepareStatement(sql);
+			prepStatement.setString(1, name);
+			ResultSet rs = prepStatement.executeQuery();
+			rs.next();
+			ret = rs.getInt(1);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		return ret;
+	}
+	
+	public ArrayList<String> listOfDrugsAppliedToPatientsWith(final String diseaseDescription){
+//		List the types of drugs which have been applied to patients with “tumor”
+
+		ArrayList<String> ret = new ArrayList<>();
+		String sql = "select unique(t3.type) from treatment t1 join disease t2 on t1.ds_id = t2.ds_id join drug t3 on t1.dr_id = t3.dr_id where t2.description =?";		
+		try {
+			prepStatement = connection.prepareStatement(sql);
+			prepStatement.setString(1, diseaseDescription.trim().replace("\n"," "));
+			ResultSet rs = prepStatement.executeQuery();
+			while(rs.next()){
+			ret.add(rs.getString(1));
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		return ret;
+	}
+	
+	public ArrayList<String> listMRNAExpressions(final String diseaseName,final String clusterId, final String muId){
+//		For each sample of patients with “ALL”, list the mRNA values (expression) of probes in cluster
+//		id “00002” for each experiment with measure unit id = “001”. (Note: measure unit id corresponds
+//				to mu_id in microarray_fact.txt, cluster id corresponds to cl_id in gene_fact.txt, mRNA expression
+//				value corresponds to exp in microarray_fact.txt, UID in probe.txt is a foreign key referring to
+//				gene_fact.txt)
+
+		ArrayList<String> ret = new ArrayList<>();
+		String sql = "select t1.expression from m_rna_expression t1 "
+				+ "join sample t2 on t1.s_id = t2.s_id "
+				+ "join treatment t3 on t3.p_id = t2.p_id "
+				+ "join disease t4 on t3.ds_id = t4.ds_id "
+				+ "join probe t5 on t1.pb_id = t5.pb_id "
+				+ "join gene_sequence t6 on t5.UUID = t6.UUID "
+				+ "join gene_cluster t7 on t6.UUID = t7.UUID "
+				+ "join measurement_unit t8 on t1.mu_id = t8.mu_id where t4.name = ? and t7.cl_id = ? and t8.mu_id=?";
+		try {
+			prepStatement = connection.prepareStatement(sql);
+			prepStatement.setString(1, diseaseName);
+			prepStatement.setString(2, clusterId);
+			prepStatement.setString(3, muId);
+			ResultSet rs = prepStatement.executeQuery();
+			while(rs.next()){
+				ret.add(rs.getString(1));
+
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		return ret;
+	}
+	
+	
+	public ArrayList<String> drugsAppliedToPatientsWithDisease(String disease){
+		//List the types of drugs which have been applied to patients with “tumor”
+		ArrayList<String> ret = new ArrayList<String>();
+		String sql = " select unique(t3.type) from treatment t1 "
+				+ "join disease t2 on t1.ds_id = t2.ds_id "
+				+ "join drug t3 on t1.dr_id = t3.dr_id where "
+				+ "t2.description=?";		
+		try {
+			prepStatement = connection.prepareStatement(sql);
+			prepStatement.setString(1, disease);
+			ResultSet rs = prepStatement.executeQuery();
+			rs.next();
+			ret.add(rs.getString(1));
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return ret;
+	}
+	
+	public ArrayList<Integer> expressionValuesOfPatients(String disease,int clusterId,int measureUnitId){
+		//List the types of drugs which have been applied to patients with “tumor”
+		ArrayList<Integer> ret = new ArrayList<Integer>();
+		String sql = " select t1.expression "
+				+ "from m_rna_expression t1 "
+				+ "join sample t2 on t1.s_id = t2.s_id "
+				+ "join treatment t3 on t3.p_id = t2.p_id "
+				+ "join disease t4 on t3.ds_id = t4.ds_id "
+				+ "join probe t5 on t1.pb_id = t5.pb_id "
+				+ "join gene_sequence t6 on t5.UUID = t6.UUID "
+				+ "join gene_cluster t7 on t6.UUID = t7.UUID "
+				+ "join measurement_unit t8 on t1.mu_id = t8.mu_id "
+				+ "where t4.name = ? and t7.cl_id = ? and t8.mu_id=?";		
+		try {
+			prepStatement = connection.prepareStatement(sql);
+			prepStatement.setString(1, disease);
+			prepStatement.setInt(2, clusterId);
+			prepStatement.setInt(3, measureUnitId);
+			ResultSet rs = prepStatement.executeQuery();
+			while(rs.next()){
+				ret.add(rs.getInt(1));
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return ret;
+	}
+	
 	public ArrayList<String> testQuery() {
 		ArrayList<String> arr = new ArrayList<>();
 		try {
@@ -152,7 +301,6 @@ public class OLAP {
 			ResultSet rs = stmt.executeQuery(sqlc);
 			
 			while (rs.next()) {
-			//	println(rs.getString(2));
 				arr.add(rs.getString(2));
 			}
 		} catch (SQLException ex) {
@@ -160,5 +308,6 @@ public class OLAP {
 		}
 		return arr;
 	}
+	
 
 }
