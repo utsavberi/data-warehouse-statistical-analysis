@@ -175,7 +175,7 @@ public class BioMedicalWS {
 	  @GET
 	  @Path("/runTestsForSampleData")
 	  @Produces(MediaType.TEXT_PLAIN)
-	  public String runTestsForSampleData(@QueryParam("diseaseName1") String diseaseName){
+	  public String runTestsForSampleData(@QueryParam("diseaseName") String diseaseName){
 		  Gson g = new Gson();
 		    return g.toJson(kd.runTestsForSampleData(diseaseName));
 	  }

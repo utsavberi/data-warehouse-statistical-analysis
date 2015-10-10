@@ -61,6 +61,7 @@ function arrayToHtml(arr){
 
 function query2(){
 	$.get( "/Project1Dm/rest/biomedicalDa/runTestsForSampleData",
+			
 			{diseaseName: $('#q2DiseaseName').val()})
 	  .done(function(d) {$('#query2').html(d); })
 	  .fail(function(e) {console.log("error",e); })

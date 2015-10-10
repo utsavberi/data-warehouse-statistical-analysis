@@ -586,7 +586,7 @@ public class KnowledgeDiscovery {
 
 	public ArrayList<String> runTestsForSampleData(String diseaseName) {
 		ArrayList<String> ret = new ArrayList<>();
-		for (int testSampleCount = 1; testSampleCount <= 5; testSampleCount++) {
+		for (int testSampleCount = 1; testSampleCount <= 1; testSampleCount++) {
 			String sql = "select UUID, test" + testSampleCount + " from test_sample";
 			HashMap<String, Double> sampleData = new HashMap<String, Double>();
 			KnowledgeDiscovery an = new KnowledgeDiscovery();
