@@ -1,4 +1,5 @@
 # Data Warehouse Statistical Analysis
+Perform statistical analysis of bio-medical data using F-test, T-test, Pearson Correlation and to help perform knowledge discovery like finding information genes and classifying new patients
 
 ##Part I
 Your data warehouse is supposed to support the regular OLAP operations (e.g., roll-up,
