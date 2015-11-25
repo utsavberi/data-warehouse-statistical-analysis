@@ -11,26 +11,23 @@ import java.util.ArrayList;
 public class OLAP {
 
 	private int threashold = 3000;
-	Connection connection = null;
 	Statement stmt = null;
 	PreparedStatement prepStatement = null;
 
-	public OLAP() {
-		initConnectionToDb();
-	}
-
-	void initConnectionToDb() {
+	Connection getConnectionToDb() {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			connection = DriverManager
+			return DriverManager
 					.getConnection(
 							"jdbc:oracle:thin:@//dbod-scan.acsu.buffalo.edu:1521/CSE601_2159.buffalo.edu",
 							"marora2", "cse601");
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 	public ArrayList<String[]> diseaseGoidExpression(){
 		ArrayList<String[]> arr = new ArrayList<>();
@@ -46,6 +43,7 @@ public class OLAP {
 				+ "WHERE ROWNUM <= "+threashold;
 				;
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 
 			ResultSet rs = prepStatement.executeQuery();
@@ -54,9 +52,13 @@ public class OLAP {
 						Integer.toString(rs.getInt(3))};
 				arr.add(a);
 			}
+
 			return arr;
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
 		}
 		return null;
 	}
@@ -75,6 +77,7 @@ public class OLAP {
 				+ "WHERE ROWNUM <= "+threashold;
 				;
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 
 			ResultSet rs = prepStatement.executeQuery();
@@ -87,6 +90,10 @@ public class OLAP {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 		return null;
 	}
 	public ArrayList<String[]> diseaseGoidExpressionRollup(){
@@ -104,6 +111,7 @@ public class OLAP {
 				+ "WHERE ROWNUM <= "+threashold;
 				;
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 
 			ResultSet rs = prepStatement.executeQuery();
@@ -116,6 +124,10 @@ public class OLAP {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 		return null;
 	}
 
@@ -134,6 +146,7 @@ public class OLAP {
 				+ "WHERE ROWNUM <= "+threashold;
 				;
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 
 			ResultSet rs = prepStatement.executeQuery();
@@ -146,6 +159,10 @@ public class OLAP {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 		return null;
 	}
 	
@@ -155,6 +172,7 @@ public class OLAP {
 		int ret = 0;
 		String sql = "select count(*) from treatment t1 join disease t2 on t1.ds_id = t2.ds_id where description = ?";		
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 			prepStatement.setString(1, description);
 			ResultSet rs = prepStatement.executeQuery();
@@ -162,6 +180,9 @@ public class OLAP {
 			ret = rs.getInt(1);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
 		}
 		
 		return ret;
@@ -172,6 +193,7 @@ public class OLAP {
 		int ret = 0;
 		String sql = "select count(*) from treatment t1 join disease t2 on t1.ds_id = t2.ds_id where type = ?";		
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 			prepStatement.setString(1, type);
 			ResultSet rs = prepStatement.executeQuery();
@@ -179,6 +201,9 @@ public class OLAP {
 			ret = rs.getInt(1);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
 		}
 		
 		return ret;
@@ -189,6 +214,7 @@ public class OLAP {
 		int ret = 0;
 		String sql = "select count(*) from treatment t1 join disease t2 on t1.ds_id = t2.ds_id where name = ?";		
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 			prepStatement.setString(1, name);
 			ResultSet rs = prepStatement.executeQuery();
@@ -197,7 +223,9 @@ public class OLAP {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
 		return ret;
 	}
 	
@@ -207,6 +235,7 @@ public class OLAP {
 		ArrayList<String> ret = new ArrayList<>();
 		String sql = "select unique(t3.type) from treatment t1 join disease t2 on t1.ds_id = t2.ds_id join drug t3 on t1.dr_id = t3.dr_id where t2.description =?";		
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 			prepStatement.setString(1, diseaseDescription.trim().replace("\n"," "));
 			ResultSet rs = prepStatement.executeQuery();
@@ -216,7 +245,9 @@ public class OLAP {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
 		return ret;
 	}
 	
@@ -237,6 +268,7 @@ public class OLAP {
 				+ "join gene_cluster t7 on t6.UUID = t7.UUID "
 				+ "join measurement_unit t8 on t1.mu_id = t8.mu_id where t4.name = ? and t7.cl_id = ? and t8.mu_id=?";
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 			prepStatement.setString(1, diseaseName);
 			prepStatement.setString(2, clusterId);
@@ -248,6 +280,9 @@ public class OLAP {
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
 		}
 		
 		return ret;
@@ -261,7 +296,7 @@ public class OLAP {
 				+ "join disease t2 on t1.ds_id = t2.ds_id "
 				+ "join drug t3 on t1.dr_id = t3.dr_id where "
 				+ "t2.description=?";		
-		try {
+		try {Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 			prepStatement.setString(1, disease);
 			ResultSet rs = prepStatement.executeQuery();
@@ -270,6 +305,10 @@ public class OLAP {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 		return ret;
 	}
 	
@@ -287,6 +326,7 @@ public class OLAP {
 				+ "join measurement_unit t8 on t1.mu_id = t8.mu_id "
 				+ "where t4.name = ? and t7.cl_id = ? and t8.mu_id=?";		
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 			prepStatement.setString(1, disease);
 			prepStatement.setInt(2, clusterId);
@@ -298,12 +338,17 @@ public class OLAP {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 		return ret;
 	}
 	
 	public ArrayList<String> testQuery() {
 		ArrayList<String> arr = new ArrayList<>();
 		try {
+			Connection connection = getConnectionToDb();
 			stmt = connection.createStatement();
 			String sqlc;
 			sqlc =  "SELECT * FROM Disease";
@@ -315,6 +360,10 @@ public class OLAP {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 		return arr;
 	}
 	

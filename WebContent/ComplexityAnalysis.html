@@ -181,7 +181,7 @@ function query3(){
 }
 function query2(){
 	$.get( "/Project1Dm/rest/biomedicalDa/listOfDrugsAppliedToPatientsWith",{diseaseDescription: $('#q2DiseaseDescription').val()})
-	  .done(function(d) {$('#query2').html(d); })
+	  .done(function(d) {$('#query2').html(arrayToHtml(JSON.parse(d))); })
 	  .fail(function(e) {console.log("error",e); })
 }
 function query1(){

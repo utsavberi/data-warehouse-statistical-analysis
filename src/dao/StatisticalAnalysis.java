@@ -9,18 +9,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class StatisticalAnalysis {
-	Connection connection = null;
 	Statement stmt = null;
 	PreparedStatement prepStatement = null;
 
-	public StatisticalAnalysis() {
-		initConnectionToDb();
-	}
-
-	void initConnectionToDb() {
+	Connection getConnectionToDb() {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			connection = DriverManager
+			return DriverManager
 					.getConnection(
 							"jdbc:oracle:thin:@//dbod-scan.acsu.buffalo.edu:1521/CSE601_2159.buffalo.edu",
 							"marora2", "cse601");
@@ -29,10 +24,12 @@ public class StatisticalAnalysis {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	void testQuery() {
 		try {
+			Connection connection = getConnectionToDb();
 			stmt = connection.createStatement();
 			String sql;
 			sql = "SELECT * FROM Disease";
@@ -43,6 +40,10 @@ public class StatisticalAnalysis {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 	}
 
 	double runTtestOneVsAll(String diseaseName) {
@@ -59,6 +60,7 @@ public class StatisticalAnalysis {
 		ArrayList<Double> expression1 = new ArrayList<Double>();
 		ArrayList<Double> expression2 = new ArrayList<Double>();
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 
 			ResultSet rs = prepStatement.executeQuery();
@@ -72,6 +74,10 @@ public class StatisticalAnalysis {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 		return 0.0;
 	}
 
@@ -89,6 +95,7 @@ public class StatisticalAnalysis {
 		ArrayList<Double> expression1 = new ArrayList<Double>();
 		ArrayList<Double> expression2 = new ArrayList<Double>();
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 			prepStatement.setInt(1, goId);
 			ResultSet rs = prepStatement.executeQuery();
@@ -102,6 +109,10 @@ public class StatisticalAnalysis {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 		return 0.0;
 	}
 
@@ -118,6 +129,7 @@ public class StatisticalAnalysis {
 				+ "where t8.go_id = ? and t5.name=?";
 		HashMap<Integer, ArrayList<Double>> patientExpression = new HashMap<Integer, ArrayList<Double>>();
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 			prepStatement.setInt(1, goId);
 			prepStatement.setString(2, diseaseName);
@@ -141,11 +153,14 @@ public class StatisticalAnalysis {
 					num++;
 				}
 			}
-			
 			return sum /num;// ((tmp.size() * (tmp.size() - 1)) / 2);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 		return 0.0;
 	}
 
@@ -164,6 +179,7 @@ public class StatisticalAnalysis {
 		HashMap<Integer, ArrayList<Double>> patientExpressionD1 = new HashMap<Integer, ArrayList<Double>>();
 		HashMap<Integer, ArrayList<Double>> patientExpressionD2 = new HashMap<Integer, ArrayList<Double>>();
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 			prepStatement.setInt(1, goId);
 			prepStatement.setString(2, diseaseName1);
@@ -204,6 +220,10 @@ public class StatisticalAnalysis {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 		return 0.0;
 
 	}
@@ -223,6 +243,7 @@ public class StatisticalAnalysis {
 				+ "join gene_sequence t7 on t6.UUID = t7.UUID "
 				+ "join go_annotation t8 on t6.UUID = t8.UUID ";
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 			ResultSet rs = prepStatement.executeQuery();
 			while (rs.next()) {
@@ -234,6 +255,10 @@ public class StatisticalAnalysis {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 		return 0.0;
 	}
 
@@ -254,6 +279,7 @@ public class StatisticalAnalysis {
 				+ "where t8.go_id = ? ";
 
 		try {
+			Connection connection = getConnectionToDb();
 			prepStatement = connection.prepareStatement(sql);
 			prepStatement.setInt(1, goId);
 			ResultSet rs = prepStatement.executeQuery();
@@ -266,6 +292,10 @@ public class StatisticalAnalysis {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally{
+			try{connection.close();}catch(Exception ignored){}
+		}
+
 		return 0.0;
 	}
 

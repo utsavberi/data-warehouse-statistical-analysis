@@ -16,11 +16,13 @@ import org.apache.commons.math.stat.inference.TTestImpl;
 
 public class KnowledgeDiscovery {
 	ArrayList<String> informativeGeneList = new ArrayList<String>();
+//	Connection connection = null;
 	Statement stmt = null;
 	PreparedStatement prepStatement = null;
 	public static double thresholdPValue = 0.01;
 
 	public KnowledgeDiscovery() {
+//		initConnectionToDb();
 		org.apache.commons.math.stat.inference.TTestImpl t = new TTestImpl();
 
 	}
